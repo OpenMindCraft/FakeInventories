@@ -37,7 +37,7 @@ public class DoubleChestFakeInventory extends ChestFakeInventory {
         List<BlockVector3> blocks = onOpenBlock(who);
         blockPositions.put(who, blocks);
 
-        Server.getInstance().getScheduler().scheduleDelayedTask(() -> {
+        Server.getInstance().getScheduler().scheduleDelayedTask(null, () -> {
             onFakeOpen(who, blocks);
         }, 3);
     }

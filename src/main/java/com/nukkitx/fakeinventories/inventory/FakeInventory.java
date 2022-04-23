@@ -2,11 +2,13 @@ package com.nukkitx.fakeinventories.inventory;
 
 import cn.nukkit.Player;
 import cn.nukkit.Server;
+import cn.nukkit.block.Block;
+import cn.nukkit.blockstate.BlockState;
+import cn.nukkit.blockstate.BlockStateRegistry;
 import cn.nukkit.inventory.ContainerInventory;
 import cn.nukkit.inventory.InventoryHolder;
 import cn.nukkit.inventory.InventoryType;
 import cn.nukkit.inventory.transaction.action.SlotChangeAction;
-import cn.nukkit.level.GlobalBlockPalette;
 import cn.nukkit.math.BlockVector3;
 import cn.nukkit.math.Vector3;
 import cn.nukkit.network.protocol.ContainerOpenPacket;
@@ -82,10 +84,11 @@ public abstract class FakeInventory extends ContainerInventory {
 
         for (int i = 0, size = blocks.size(); i < size; i++) {
             final int index = i;
-            Server.getInstance().getScheduler().scheduleDelayedTask(() -> {
+            Server.getInstance().getScheduler().scheduleDelayedTask(null, () -> {
                 Vector3 blockPosition = blocks.get(index).asVector3();
+                   Block targetBlock     =  who.getLevel().getBlock(blockPosition);
                 UpdateBlockPacket updateBlock = new UpdateBlockPacket();
-                updateBlock.blockRuntimeId = GlobalBlockPalette.getOrCreateRuntimeId(who.getLevel().getBlock(blockPosition).getFullId());
+                updateBlock.blockRuntimeId = BlockStateRegistry.getRuntimeId(BlockState.of(targetBlock.getId(),0 ));
                 updateBlock.flags = UpdateBlockPacket.FLAG_ALL_PRIORITY;
                 updateBlock.x = blockPosition.getFloorX();
                 updateBlock.y = blockPosition.getFloorY();

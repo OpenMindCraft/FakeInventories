@@ -46,7 +46,6 @@ public class FakeInventoriesListener implements Listener {
     public void onTransaction(InventoryTransactionEvent event) {
         Map<FakeInventory, List<SlotChangeAction>> actions = new HashMap<>();
         Player source = event.getTransaction().getSource();
-        long creationTime = event.getTransaction().getCreationTime();
         for (InventoryAction action : event.getTransaction().getActions()) {
             if (action instanceof SlotChangeAction) {
                 SlotChangeAction slotChange = (SlotChangeAction) action;
